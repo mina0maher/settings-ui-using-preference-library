@@ -39,7 +39,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val autoReplyTime = sharedPreference.getString(getString(R.string.key_auto_reply_time), "")
         Log.i("mainActivity", "Auto Reply Time : $autoReplyTime")
 
+        val publicInfo: Set<String>? =
+            sharedPreference.getStringSet(getString(R.string.key_public_info), null)
 
+        Log.i("mainActivity","Public Info: $publicInfo")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -64,11 +67,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onResume() {
         super.onResume()
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this)
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .unregisterOnSharedPreferenceChangeListener(this)
     }
 }
