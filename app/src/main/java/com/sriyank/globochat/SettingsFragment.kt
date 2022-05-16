@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -45,14 +42,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
         statusPref?.setOnPreferenceChangeListener { preference, newValue ->
             Log.i("SettingsFragment", "New Status : $newValue")
             val newStatus = newValue as String
-            if(newStatus.contains("bad")){
-                Toast.makeText(context,"inappropriate status. please maintain community guidelines.",Toast.LENGTH_SHORT).show()
+            if (newStatus.contains("bad")) {
+                Toast.makeText(
+                    context,
+                    "inappropriate status. please maintain community guidelines.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 false
-            }else{
+            } else {
                 true
             }
-             //true accept new values // false reject the new value.
+            //true accept new values // false reject the new value.
         }
+
+        val notificationPref =
+            findPreference<SwitchPreferenceCompat>(getString(R.string.key_new_msg_notif))
+        notificationPref?.summaryProvider =
+            Preference.SummaryProvider<SwitchPreferenceCompat> { switchPref->
+                if(switchPref?.isChecked!!)
+                    "Status:ON"
+                else
+                    "Status:OFF"
+            }
 
     }
 
